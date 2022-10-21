@@ -17,6 +17,7 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 
+		// 간선 저장
 		edge = new ArrayList[N];
 		for (int i = 0; i < N; ++i)
 			edge[i] = new ArrayList<>();
@@ -30,14 +31,17 @@ public class Main {
 			edge[b].add(a);
 		}
 
+		// 간선 수 체크
 		if (K >= 4) {
 			for (int i = 0; i < N; ++i) {
-				if (flag)
+				if (flag) // 성공
 					break;
 
+				// 방문 체크
 				boolean[] visited = new boolean[N];
 				visited[i] = true;
-				dfs(i, visited, 0, 1);
+
+				dfs(i, visited, 0);
 			}
 		}
 
@@ -45,12 +49,16 @@ public class Main {
 		br.close();
 	}
 
-	private static void dfs(int cur, boolean[] visited, int level, int check) {
+	// 시작 위치, 방문 여부, 깊이
+	private static void dfs(int cur, boolean[] visited, int level) {
 		if (flag)
 			return;
 
-		if (check == 5)
+		// 깊이가 4는 친구 5명을 의미. (0부터 시작)
+		if (level == 4) {
 			flag = true;
+			return;
+		}
 
 		if (level < 4) {
 			for (int next : edge[cur]) {
@@ -58,7 +66,7 @@ public class Main {
 					continue;
 
 				visited[next] = true;
-				dfs(next, visited, level + 1, check + 1);
+				dfs(next, visited, level + 1);
 				visited[next] = false;
 			}
 		}
