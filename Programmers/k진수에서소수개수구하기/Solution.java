@@ -1,4 +1,4 @@
-package Programmers.no92335_k진수에서소수개수구하기;
+package Programmers.k진수에서소수개수구하기;
 
 class Solution {
 

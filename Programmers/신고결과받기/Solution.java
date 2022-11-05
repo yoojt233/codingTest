@@ -1,4 +1,4 @@
-package Programmers.no92334_신고결과받기;
+package Programmers.신고결과받기;
 
 import java.util.HashMap;
 import java.util.HashSet;

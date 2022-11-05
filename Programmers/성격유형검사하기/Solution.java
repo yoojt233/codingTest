@@ -1,4 +1,4 @@
-package Programmers.no118666_성격유형검사하기;
+package Programmers.성격유형검사하기;
 
 import java.util.HashMap;
 

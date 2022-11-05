@@ -1,4 +1,4 @@
-package Programmers.no72411_메뉴리뉴얼;
+package Programmers.메뉴리뉴얼;
 
 import java.util.ArrayList;
 import java.util.Arrays;

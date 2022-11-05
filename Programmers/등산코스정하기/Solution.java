@@ -1,4 +1,4 @@
-package Programmers.no118669_등산코스정하기;
+package Programmers.등산코스정하기;
 
 import java.util.ArrayList;
 import java.util.Arrays;

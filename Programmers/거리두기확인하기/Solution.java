@@ -1,4 +1,4 @@
-package Programmers.no81302_거리두기확인하기;
+package Programmers.거리두기확인하기;
 
 import java.util.ArrayList;
 

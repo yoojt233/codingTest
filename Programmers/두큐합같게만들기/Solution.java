@@ -1,4 +1,4 @@
-package Programmers.no118667_두큐합같게만들기;
+package Programmers.두큐합같게만들기;
 
 import java.util.LinkedList;
 import java.util.Queue;
