@@ -1,75 +1,82 @@
 package BaekJoon.no1753_최단경로;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
+	static int V, E;
+	static ArrayList<node>[] edges;
+	static int[] ans;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		V = Integer.parseInt(st.nextToken());
+		E = Integer.parseInt(st.nextToken());
 
-		int V = Integer.parseInt(st.nextToken()); // 노드 수
-		int M = Integer.parseInt(st.nextToken()); // 간선 수
-		int[][] map = new int[V + 1][V + 1];
+		int op = Integer.parseInt(br.readLine()) - 1;
+		edges = new ArrayList[V];
+		for (int i = 0; i < V; ++i)
+			edges[i] = new ArrayList<>();
 
-		// 시작 지점
-		int first = Integer.parseInt(br.readLine());
+		ans = new int[V];
+		Arrays.fill(ans, Integer.MAX_VALUE);
+		ans[op] = 0;
 
-		// 인접 행렬 생성
-		for (int i = 0; i < M; i++) {
+		for (int i = 0; i < E; ++i) {
 			st = new StringTokenizer(br.readLine());
-			makeArr(map, st.nextToken(), st.nextToken(), st.nextToken());
+			int from = Integer.parseInt(st.nextToken()) - 1;
+			int to = Integer.parseInt(st.nextToken()) - 1;
+			int val = Integer.parseInt(st.nextToken());
+
+			edges[from].add(new node(to, val));
 		}
 
-		int[] distance = new int[V + 1]; // 노드에서 노드까지의 거리(간선의 가중치)
-		boolean[] visited = new boolean[V + 1]; // 방문 체크
+		dijk(op);
 
-		Arrays.fill(distance, Integer.MAX_VALUE);
-		distance[first] = 0;
+		for (int i : ans)
+			sb.append(i == Integer.MAX_VALUE ? "INF" : i).append("\n");
 
-		for (int i = 0; i < V; i++) {
-			int min = Integer.MAX_VALUE, current = 0;
-			for (int j = 1; j < V + 1; j++) {
-				if (!visited[j] && min > distance[j]) {
-					min = distance[j];
-					current = j;
-				}
-			}
-			visited[current] = true;
-
-			for (int j = 1; j < V + 1; j++) {
-				if (!visited[j] && map[current][j] != 0 && distance[j] > distance[current] + map[current][j]) {
-					distance[j] = distance[current] + map[current][j];
-				}
-			}
-		}
-
-		for (int i = 1; i < V + 1; i++) {
-			if (distance[i] == Integer.MAX_VALUE)
-				sb.append("INF").append("\n");
-			else
-				sb.append(distance[i]).append("\n");
-		}
 		System.out.print(sb);
 		br.close();
 	}
 
-	private static void makeArr(int[][] map, String start, String end, String value) {
-		map[Integer.parseInt(start)][Integer.parseInt(end)] = Integer.parseInt(value);
+	private static void dijk(int op) {
+		PriorityQueue<node> pq = new PriorityQueue<>();
+		pq.add(new node(op, 0));
+		boolean[] visited = new boolean[V];
+
+		while (!pq.isEmpty()) {
+			node cur = pq.poll();
+
+			if (visited[cur.next])
+				continue;
+
+			visited[cur.next] = true;
+			for (node n : edges[cur.next]) {
+				if (ans[n.next] > ans[cur.next] + n.value) {
+					ans[n.next] = ans[cur.next] + n.value;
+					pq.add(new node(n.next, ans[n.next]));
+				}
+			}
+		}
+	}
+}
+
+class node implements Comparable<node> {
+	int next, value;
+
+	public node(int next, int value) {
+		this.next = next;
+		this.value = value;
 	}
 
-	static class Node {
-		int vertex;
-		Node link;
-		public Node(int vertex, Node link) {
-			super();
-			this.vertex = vertex;
-			this.link = link;
-		}
+	public int compareTo(node o) {
+		return this.value - o.value;
 	}
 }
